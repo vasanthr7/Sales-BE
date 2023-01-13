@@ -3,25 +3,27 @@ module.exports = (db) => {
   return {
     CreateCustomer: (req, res) => {
       let value = [
-        req.body.first_name,
-        req.body.last_name,
-        req.body.mobile_number,
-        req.body.email,
-        req.body.password,
-        req.body.country,
+        req.body.FirstName,
+        req.body.LastName,
+        req.body.MobileNumber,
+        req.body.Email,
+        req.body.Password
+      
       ];
       bcrypt.genSalt(10, function (err, Salt) {
         // The bcrypt is used for encrypting password.
-        bcrypt.hash(req.body.password, Salt, function (err1, hash) {
+        bcrypt.hash(req.body.Password, Salt, function (err1, hash) {
           if (err1) {
-            return console.log("Cannot encrypt");
+            console.log("Cannot encrypt")
+            return res.status(400).send("Cannot encrypt");
+           
           }
 
           if (hash) {
             value[4] = hash;
             console.log(hash);
             db.query(
-              `call insertUser(?,?,?,?,?,?)`,
+              `call createtUser(?,?,?,?,?)`,
               //  ` INSERT INTO customers (first_name,last_name,mobile_number,email,password,country) values(?,?,?,?,?,?)`,
               value,
               (err, data) => {
@@ -43,13 +45,16 @@ module.exports = (db) => {
               }
             );
           }
+          else{
+
+          }
         });
       });
     },
     CustomerList: (req, res) => {
       // console.log(req.user.Id)
       db.query(
-        `SELECT customer_id,first_name,last_name,mobile_number,email,country FROM customers where customer_id=${req.user.Id}`,
+        `SELECT UserId,FirstName,LastName,MobileNumber,Email FROM user where UserId=${req.user.Id}`,
         (err, data) => {
           if (err) {
             console.log(err), res.status(400).send(err);
@@ -61,7 +66,7 @@ module.exports = (db) => {
     },
     UpdateCustomer: (req, res) => {
       let qry = `
-      UPDATE customers SET `;
+      UPDATE user SET `;
       let updateParams = [];
 
       // Object.keys(req.body).forEach(x => {
@@ -69,14 +74,14 @@ module.exports = (db) => {
       // })
 
       if (req.body.first_name)
-        updateParams.push(`first_name = '${req.body.first_name}'`);
+        updateParams.push(`FirstName = '${req.body.first_name}'`);
       if (req.body.last_name)
-        updateParams.push(`last_name = '${req.body.last_name}'`);
+        updateParams.push(`LastName = '${req.body.last_name}'`);
       if (req.body.country)
-        updateParams.push(`country = '${req.body.country}'`);
+        updateParams.push(`MobileNumber = '${req.body.country}'`);
 
       qry += updateParams.join(", ");
-      qry += ` WHERE email = '${req.body.email}'`;
+      qry += ` WHERE Email = '${req.body.email}'`;
 
       if (updateParams.length) {
         console.log(qry);
