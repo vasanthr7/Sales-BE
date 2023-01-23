@@ -37,12 +37,6 @@ module.exports = (db) => {
                     Result: data,
                     msg:"Get producet successfully"
                   };
-                  
-                  res.status(200).send(resp);
-                  
-                  res.status(200).send(resp);
-                  res.status(200).send(resp);
-                  res.status(200).send(resp);
                   res.status(200).send(resp);
                 }
               }
