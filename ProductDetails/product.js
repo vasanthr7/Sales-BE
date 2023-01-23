@@ -42,6 +42,8 @@ module.exports = (db) => {
                   
                   res.status(200).send(resp);
                   res.status(200).send(resp);
+                  res.status(200).send(resp);
+                  res.status(200).send(resp);
                 }
               }
             );
