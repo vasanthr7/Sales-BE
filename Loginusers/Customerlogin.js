@@ -10,7 +10,7 @@ module.exports = (db) => {
                 console.log(err), res.status(400).send(err);
               } else {   
                 bcrypt.compare(
-                  req.body.password,
+                  req.body.Password,
                   pwd[0].Password,
                   function (err, result) {
                     if (err) {
