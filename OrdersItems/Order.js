@@ -2,7 +2,7 @@
 module.exports = (db) => {
   return {
    
-    myorder: (req, res) => { 
+    createorder: (req, res) => { 
 
       let value = [
         req.body.Product_Id,
@@ -15,7 +15,20 @@ module.exports = (db) => {
            
       //   `SELECT  o.order_id ,o.item,o.amount,f.Fruits_Description,o.customer_id FROM orders o
       // LEFT JOIN fruits f on o.order_id=f.fruit_Id where customer_id=${req.user.Id}`
-      db.query(`insert into \`order\` (Product_Id, User_Id,Price, Activestatus) VALUES (?, ?, ?,1)`,value,(err, data) => {
+      // db.query(`insert into \`order\` (Product_Id, User_Id,Price, Activestatus) VALUES (?, ?, ?,1)`,value,(err, data) => {
+        db.query(`insert into orders (Product_Id, User_Id,Price, Activestatus) VALUES (?, ?, ?,1)`,value,(err, data) => {  
+      if (err) {
+          console.log(err), res.status(400).send(err);
+        } else {
+          console.log(data), res.status(200).send(data);
+        }
+      }
+      )
+    },
+    myorder: (req, res) => { 
+
+
+      db.query(`SELECT * FROM orders where User_Id=${ req.user.Id}`,(err, data) => {
         if (err) {
           console.log(err), res.status(400).send(err);
         } else {

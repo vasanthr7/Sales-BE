@@ -14,8 +14,8 @@ module.exports = (app,db) => {
     app.post('/loginuser', Login.LoginCustomer);
 
 
-    app.post('/order',verifyToken, myorders.myorder);
-
+    app.post('/createorder',verifyToken, myorders.createorder);
+    app.get('/myorder',verifyToken, myorders.myorder);
 
 
     const myproduct = require('./ProductDetails/product')(db);
